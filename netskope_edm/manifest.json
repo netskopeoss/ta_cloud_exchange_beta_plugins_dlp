@@ -1,5 +1,5 @@
 {
-    "name": "Netskope",
+    "name": "Netskope Exact Data Match",
     "description": "This plugin is used to push EDM File Hashes on Netskope Tenant.",
     "id": "netskope_edm",
     "version": "1.0.0",
