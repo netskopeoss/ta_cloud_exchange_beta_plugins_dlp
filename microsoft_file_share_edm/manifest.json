@@ -1,0 +1,96 @@
+{
+    "name": "Microsoft File Share EDM",
+    "id": "microsoft_file_share_edm",
+    "version": "1.0.0",
+    "description": "Microsoft File Share EDM Plugin is used to fetch a CSV file from the remote Windows server and to generate EDM hashes of the pulled CSV file.",
+    "patch_supported": false,
+    "push_supported": false,
+    "pull_supported": true,
+    "pull_sample_data_on_validate": true,
+    "supported_edm_method": [
+        "edm_file_hashes"
+    ],
+    "configuration": [
+        {
+            "label": "Protocol",
+            "name": "protocol",
+            "type": "step",
+            "labelInfo": "Select protocol to use to pull the CSV file from the Windows server. SMB protocol is natively designed for Microsoft-based systems. Pulling the file using SFTP protocol is comparatively faster and it requires to have OpenSSH service enabled on Windows system.",
+            "fields": [
+                {
+                    "label": "Protocol name",
+                    "key": "name",
+                    "type": "choice",
+                    "default": "SMB",
+                    "choices": [
+                        {
+                            "key": "SMB",
+                            "value": "SMB"
+                        },
+                        {
+                            "key": "SFTP",
+                            "value": "SFTP"
+                        }
+                    ],
+                    "mandatory": true,
+                    "description": "Protocol to use to pull the CSV file from the Windows server."
+                }
+            ]
+        },
+        {
+            "label": "Configuration Parameters",
+            "name": "configuration",
+            "type": "dynamic_step",
+            "on_next": "validate"
+        },
+        {
+            "label": "Hash Generation and Sanitization Parameters",
+            "name": "sanity_inputs",
+            "type": "step",
+            "on_next": "sanitize",
+            "fields": [
+                {
+                    "label": "Sanitization Parameters",
+                    "key": "sanitization_input",
+                    "type": "sanitization_input",
+                    "default": {},
+                    "mandatory": false,
+                    "description": "Parameters required for sanitization and EDM hashing."
+                },
+                {
+                    "label": "Remove stopwords",
+                    "key": "exclude_stopwords",
+                    "type": "boolean",
+                    "default": false,
+                    "mandatory": false,
+                    "description": "By default, stopwords are included during data sanitization for all the columns. To reflect the changes in sanitization for any given column, make sure that column is selected as 'Name Column' and 'Proceed without sanitization' is unchecked in the next step.",
+                    "helperText": "Stopwords are common words (e.g., 'is', 'the', 'and') that are often removed to improve accuracy."
+                }
+            ]
+        },
+        {
+            "label": "Preview Sanitization Results",
+            "labelInfo": "Preview the output of the first 20 records with sanitization performed on the data fetched from the Microsoft Windows server. If the 'Proceed without sanitization' is unchecked, only the Good file will be used for EDM Hash generation. In this case, review the Bad file and update the sanitization parameters or data source to prevent important records from being excluded. If the 'Proceed without sanitization' is checked, all data without sanitization will be used for EDM Hash generation.",
+            "name": "sanity_results",
+            "type": "step",
+            "fields": [
+                {
+                    "label": "Preview Files",
+                    "key": "sanity_preview",
+                    "type": "sanitization_preview",
+                    "default": "",
+                    "mandatory": false,
+                    "description": "Preview options for viewing sanitized results. This provides a way to see the data before further processing. It includes both 'good' and 'bad' files, indicating data that passed and data that didn't meet the sanitization criteria.",
+                    "readonly": true
+                },
+                {
+                    "label": "Proceed without sanitization",
+                    "key": "is_unsanitized_data",
+                    "type": "boolean",
+                    "default": true,
+                    "mandatory": true
+                }
+            ]
+        }
+    ]
+}

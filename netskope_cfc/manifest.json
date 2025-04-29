@@ -1,0 +1,12 @@
+{
+    "name": "Netskope Custom File Classification",
+    "id": "netskope_cfc",
+    "netskope": true,
+    "version": "1.0.0",
+    "description": "This plugin is used to push CFC hashes of images to Netskope Tenant.",
+    "push_supported": true,
+    "patch_supported": false,
+    "pull_supported": false,
+    "configuration": [   
+    ]
+}
