@@ -7,6 +7,8 @@
     "push_supported": true,
     "patch_supported": false,
     "pull_supported": false,
+    "minimum_provider_version": "1.0.0",
+    "provider_id": "netskope_provider",
     "configuration": [   
     ]
 }
